@@ -21,6 +21,11 @@ class _MyAppState extends State<MyApp> {
       _questionIndex += 1;
     });
     print(_questionIndex);
+    if (_questionIndex < questions.length) {
+      print('We have more questions');
+    } else {
+      print('No more questions');
+    }
   }
 
   static const questions = [
@@ -38,13 +43,17 @@ class _MyAppState extends State<MyApp> {
       ]
     },
     {
-      'questionText': 'What is the name of your first pet?',
+      'questionText': 'What do you think about Nigeria?',
       'answer': [
-        'Something Sweet',
-        'Something Sweet',
-        'Something Sweet',
-        'Something Sweet'
+        'There is still hope if we can fight',
+        'No more hope, time to abandon ship',
+        'Join biafra',
+        'Nigeria is dead, long live UAR'
       ]
+    },
+    {
+      'questionText': 'Sofiat will you marry me?',
+      'answer': ['Yes', 'No']
     },
   ];
 
@@ -53,20 +62,25 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Not First App'),
-          ),
-          body: Column(
-            children: [
-              Question(
-                questions[_questionIndex]['questionText'],
+        appBar: AppBar(
+          title: Text('Not First App'),
+        ),
+        body: _questionIndex < questions.length
+            ? Column(
+                children: [
+                  Question(
+                    questions[_questionIndex]['questionText'],
+                  ),
+                  ...(questions[_questionIndex]['answer'] as List<String>)
+                      .map((answer) {
+                    return Answer(_answerQuestion, answer);
+                  })
+                ],
+              )
+            : Center(
+                child: Text('You did it'),
               ),
-              ...(questions[_questionIndex]['answer'] as List<String>)
-                  .map((answer) {
-                return Answer(_answerQuestion, answer);
-              })
-            ],
-          )),
+      ),
     );
   }
 }
